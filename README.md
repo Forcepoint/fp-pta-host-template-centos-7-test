@@ -1,6 +1,13 @@
-# template-pta-centos-7-test
+# template-centos-7-test
 
 This is a Packer process which creates a VM on a vSphere host.
+
+You may notice that I run Packer with the vmware-iso builder here, and not the vsphere-iso builder.
+I do this because I found that the vsphere-iso builder wouldn't work with vSphere 6.0 or 6.5.
+I could only get it to work with 6.7. Your experience may vary. Anyways, I wanted to include
+a Packer example for using vmware-iso. If you want to convert this template process to use the
+vsphere-iso builder instead, go for it! The template-windows-10-test example uses the 
+vsphere-iso builder if you want something to follow during your conversion.
 
 ## Setup
 

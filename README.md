@@ -44,11 +44,20 @@ If you're running on windows, you should be able to easily extrapolate what comm
 Once you've got your pta-controller Jenkins system setup, you'll want to run this job through
 Jenkins itself. 
 
-1. Be sure you create all of the credential objects referred to in the Jenkinsfile.
-2. At the bottom of the Jenkinsfile, ensure you change the email address to your PTA 
+* Be sure you create all of the credential objects referred to in the Jenkinsfile.
+
+* At the bottom of the Jenkinsfile, ensure you change the email address to your PTA 
 administrator's address so they get failure notifications.
 
-Also, once you have an Artifactory server setup and the yum repos that CentOS added as remotes,
+* The last stage in the Jenkinsfile runs another job TestSystems. The idea is that this
+job sets up test systems based upon this template. With the automatic reprovisioning
+by Terraform, you're ensured to catch any issues early on that would appear from
+conflicts between your ansible roles, terraform setup within VMware, and the base operating system packages.
+When you're in the middle of recreating a production VM with PTA, the last thing
+you want is to find out that your base template is borked somehow. This is one of the
+best things about PTA - recreating your test applications weekly and detecting issues early.
+
+* Also, once you have an Artifactory server setup and the yum repos that CentOS added as remotes,
 you should modify the Jenkinsfile to set the default value of the PACKER_ARTIFACTORY_DNS parameter
 to your Artifactory instance.
 

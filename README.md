@@ -6,6 +6,8 @@ This is a Packer process which creates a VM on a vSphere host.
 
 Runs on either Windows of Linux.
 
+Modify centos7.json so it has the appropriate values for your vsphere instance.
+
 ### Linux
 
 You can use the Ansible roles 'packer' and 'vmware-workstation' to setup your environment, 

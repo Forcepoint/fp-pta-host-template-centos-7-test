@@ -2,13 +2,6 @@
 
 This is a Packer process which creates a VM on a vSphere host.
 
-You may notice that I run Packer with the vmware-iso builder here, and not the vsphere-iso builder.
-I do this because I found that the vsphere-iso builder wouldn't work with vSphere 6.0 or 6.5.
-I could only get it to work with 6.7. Your experience may vary. Anyways, I wanted to include
-a Packer example for using vmware-iso. If you want to convert this template process to use the
-vsphere-iso builder instead, go for it! The template-windows-10-test example uses the 
-vsphere-iso builder if you want something to follow during your conversion.
-
 ## Setup
 
 Runs on either Windows of Linux.
@@ -70,14 +63,28 @@ to your Artifactory instance.
 
 ## Notes
 
+* You may notice that I run Packer with the vmware-iso builder here, and not the vsphere-iso builder.
+I do this because I found that the vsphere-iso builder wouldn't work with vSphere 6.0 or 6.5.
+I could only get it to work with 6.7. Your experience may vary. Anyways, I wanted to include
+a Packer example for using vmware-iso. If you want to convert this template process to use the
+vsphere-iso builder instead, go for it! The template-windows-10-test example uses the 
+vsphere-iso builder if you want something to follow during your conversion.
+
 * The guest_os_type centos7-64 is not supported in ESXi 6.0 but it is available in ESXi 6.5.
-  I would really recommend not running this process against ESXi 6.0, but if you need to, you can.
+I would really recommend not running this process against ESXi 6.0, but if you need to, you can.
   
 * The default nic used by packer is e1000, which is not the recommended default by VMWare. 
-  Hard coding to vmxnet3 is preferable because Terraform will attempt to remove the e1000 nic and
-  add the vmxnet3 anyways, which is causing an error for some reason. This also caused issues
-  with the kickstart file, as the network had to be configured to ens192 instead of ens33 and
-  it had to be configured to start on boot. For whatever reason, ens192 via vmxnet3 wouldn't 
-  connect ipv4 after a reboot, while ens33 via e1000 would. Took me most of an entire day
-  to figure that out. 
-  https://www.lewan.com/blog/choosing-the-right-vmware-nic-should-you-replace-your-e1000-with-the-vmxnet3
+Hard coding to vmxnet3 is preferable because Terraform will attempt to remove the e1000 nic and
+add the vmxnet3 anyways, which is causing an error for some reason. This also caused issues
+with the kickstart file, as the network had to be configured to ens192 instead of ens33 and
+it had to be configured to start on boot. For whatever reason, ens192 via vmxnet3 wouldn't 
+connect ipv4 after a reboot, while ens33 via e1000 would. Took me most of an entire day
+to figure that out. 
+https://www.lewan.com/blog/choosing-the-right-vmware-nic-should-you-replace-your-e1000-with-the-vmxnet3
+
+* Also, in many packer examples, you'll see many ways to make files available to the install
+process, including an http server that packer spins up dynamically. I found this to cause
+me no end of trouble trying to get it to work consistently because I was running
+packer from a VM itself, not on my own machine, which introduced networking difficulties.
+After much headache trying to troubleshoot, I just switched back to the floppy drive approach.
+As long as the OS you're installing has the drivers for a floppy drive, you're golden... 

@@ -1,0 +1,5 @@
+.idea
+floppy/ks.cfg
+output-vmware-iso
+packer_cache
+cfg/virt*

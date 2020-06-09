@@ -2,6 +2,8 @@
 
 This is a Packer process which creates a VM on a vSphere host.
 
+For information about PTA and how to use it please visit https://github.com/Forcepoint/fp-pta-overview/blob/master/README.md
+
 ## Setup
 
 Runs on either Windows of Linux.
